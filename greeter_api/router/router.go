@@ -1,8 +1,8 @@
 package router
 
 import (
+	"greeter_api/client"
 	"github.com/gin-gonic/gin"
-	"greeterAPI/client"
 )
 
 // NewRouter ...

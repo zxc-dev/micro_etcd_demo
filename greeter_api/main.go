@@ -1,8 +1,8 @@
 package main
 
 import (
-	"greeterAPI/client"
-	"greeterAPI/router"
+	"greeter_api/client"
+	"greeter_api/router"
 	"log"
 )
 

@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/go-micro/plugins/v4/registry/etcd"
 	"go-micro.dev/v4"
-	"greeterService/proto"
+	"greeter_service/proto"
 	"log"
 )
 
@@ -18,11 +19,16 @@ func (g *GreeterService) Greet(ctx context.Context, req *proto.Request, res *pro
 }
 
 func main() {
+	reg := etcd.NewRegistry()
+
 	service := micro.NewService(
-		micro.Name("micro.service.greeter"), // The service name to register in the registry
+		micro.Name("micro.service.greeter"), // The service name to register in the reg
+		micro.Registry(reg),
 	)
 
 	service.Init()
+
+
 
 	proto.RegisterGreeterHandler(service.Server(), &GreeterService{})
 

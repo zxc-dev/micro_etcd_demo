@@ -3,10 +3,11 @@
 package client
 
 import (
+	"greeter_api/proto"
 	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/go-micro/plugins/v4/registry/etcd"
 	"go-micro.dev/v4"
-	"greeterAPI/proto"
 	"log"
 )
 
@@ -15,9 +16,11 @@ var client proto.GreeterService
 // Init ... In the main function, you should call Init() first,
 // so the 'client' defined above can be initialized.
 func Init() {
-	//创建新服务
+	reg := etcd.NewRegistry()
+
 	service := micro.NewService(
 		micro.Name("micro.client.greeter"),
+		micro.Registry(reg),
 	)
 	//初始化
 	service.Init()
