@@ -8,7 +8,7 @@ services:
       MICRO_SERVER_ADDRESS: ":50051" # Specify the Go-micro server port
       PARAMS: "--registry etcd --registry_address etcd:2379"
     networks:
-      - greeter
+      - etdnet
     depends_on:
       - etcd # Start after Etcd service start
 
