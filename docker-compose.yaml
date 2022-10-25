@@ -1,40 +1,35 @@
-version: '3.5'
-
+version: "3.5"
 services:
-  greeter-service:
-    image: greeter_service:latest
-    ports:
-      - 50051:50051 # The opening port
+  etcd:
+    hostname: etcd
+    image: bitnami/etcd:3
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    # ports:
+    #   - "2379:2379"
+    #   - "2380:2380"
+    #   - "4001:4001"
+    #   - "7001:7001"
+    privileged: true
+    volumes:
+      - "/etcd/data:/opt/bitnami/etcd/data"
     environment:
-      MICRO_SERVER_ADDRESS: ":50051" # Specify the Go-micro server port
-      PARAMS: "--registry etcd --registry_address etcd:2379"
-    networks:
-      - greeter
-    depends_on:
-      - etcd # Start after Etcd service start
-
-  greeter-api-service:
-    image: greeter_api:latest
-    ports:
-      - 3000:3000
-    environment:
-      PARAMS: "--registry etcd --registry_address etcd:2379"
-    networks:
-      - greeter
-    depends_on:
-      - etcd
-
-  docker container ls
-
-    environment:
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+      - "ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379"
+      - "ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379"
+      - "ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380"
+      - "ETCD_INITIAL_ADVERTISE_PEER_URLS=http://0.0.0.0:2380"
+      - "ALLOW_NONE_AUTHENTICATION=yes"
+      - "ETCD_INITIAL_CLUSTER=node1=http://0.0.0.0:2380"
+      - "ETCD_NAME=node1"
+      - "ETCD_DATA_DIR=/opt/bitnami/etcd/data"
     ports:
       - 2379:2379
       - 2380:2380
     networks:
-      - greeter
+      - etcdnet
 
 networks:
-  greeter:
-    driver: bridge
+  etcdnet:
+    name: etcdnet
