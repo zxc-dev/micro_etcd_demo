@@ -19,7 +19,7 @@ services:
       environment:
         PARAMS: "--registry etcd --registry_address etcd:2379"
       networks:
-        - greeter
+        - etcdnet
       depends_on:
         - etcd
   etcd:
