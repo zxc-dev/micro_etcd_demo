@@ -2,21 +2,22 @@
 
 syntax = "proto3";
 
-package greeter;
-option go_package = "./proto";
+package login;
+option go_package = "./pb/login";
 
-service Greeter {
+service Login {
   // 定義 API Interface，Greet 為此 API 的 Name，
   // 代表 給 Greet API Request 當參數，並返回 Response
-  rpc Greet(Request) returns (Response) {}
+  rpc Login(LoginRequest) returns (LoginResponse) {}
 }
 
 // Request 需要攜帶 type 為 string 的參數 name
-message Request {
+message LoginRequest {
   string name = 1; // 數字不重複即可
+  string passwd = 2;
 }
 
 // Response 會返回 type 為 string 的參數 greeting
-message Response {
-  string greeting = 2; // 數字不重複即可
+message LoginResponse {
+  string greeting = 1; // 數字不重複即可
 }

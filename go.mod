@@ -1,4 +1,4 @@
-module ETDService
+module github.com/zxc-dev/micro_etcd_demo
 
 go 1.16
 
