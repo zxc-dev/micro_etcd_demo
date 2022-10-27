@@ -13,7 +13,7 @@ func main() {
 	reg := etcd.NewRegistry()
 
 	service := micro.NewService(
-		micro.Name("micro.service.greeter"), // The service name to register in the reg
+		micro.Name("micro.service.login"), // The service name to register in the reg
 		micro.Registry(reg),
 	)
 

@@ -16,7 +16,7 @@ var loginClient loginpb.LoginService
 func Init(s micro.Service) {
 	// NewGreeterService is defined at proto/greeter.pb.micro.go file,
 	// "micro.service.greeter" should match the name you defined in the server part.
-	loginClient = loginpb.NewLoginService("micro.service.greeter", s.Client())
+	loginClient = loginpb.NewLoginService("micro.service.login", s.Client())
 }
 
 func Login(name, passwd string) (string, error) {
