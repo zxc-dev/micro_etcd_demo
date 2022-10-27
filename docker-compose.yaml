@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  greeter-service:
+  login-service:
     image: greeter_service:latest
     ports:
       - 50051:50051 # The opening port
@@ -12,7 +12,7 @@ services:
     depends_on:
       - etcd # Start after Etcd service start
 
-  greeter-api-service:
+  login-api-service:
       image: greeter_api:latest
       ports:
         - 3000:3000
