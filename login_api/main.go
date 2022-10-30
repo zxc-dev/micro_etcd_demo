@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/registry/etcd"
 	"log"
 
-	"github.com/go-micro/plugins/v4/registry/etcd"
 	"github.com/zxc-dev/micro_etcd_demo/login_api/client"
 	"github.com/zxc-dev/micro_etcd_demo/login_api/router"
-	"go-micro.dev/v4"
 )
 
 func main() {

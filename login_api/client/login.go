@@ -4,9 +4,9 @@ package client
 
 import (
 	"context"
+	"github.com/micro/go-micro"
 
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
-	"go-micro.dev/v4"
 )
 
 var loginClient loginpb.LoginService
@@ -20,7 +20,7 @@ func Init(s micro.Service) {
 }
 
 func Login(name, passwd string) (string, error) {
-	res, err := loginClient.Login(context.TODO(), &loginpb.LoginRequest{
+	res, err := loginClient.Login(context.TODO(), &loginpb.LoginReq{
 		Name:   name,
 		Passwd: passwd,
 	})
@@ -29,5 +29,15 @@ func Login(name, passwd string) (string, error) {
 		return "", err
 	}
 
-	return res.Greeting, nil
+	return res.Result, nil
+}
+func Register(name, passwd string) (string, error) {
+	res, err := loginClient.Register(context.TODO(), &loginpb.RegisterReq{
+		Name:   name,
+		Passwd: passwd,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.Result, nil
 }

@@ -12,9 +12,25 @@ func Login(ctx *gin.Context) {
 	name := ctx.PostForm("name")
 	passwd := ctx.PostForm("passwd")
 
-	_, err := client.Login(name, passwd)
+	result, err := client.Login(name, passwd)
 	if err != nil {
 		log.Println(err.Error())
 	}
 	// TODO:
+	ctx.JSON(200, gin.H{
+		"message": result,
+	})
+}
+func Register(ctx *gin.Context) {
+	name := ctx.PostForm("name")
+	passwd := ctx.PostForm("passwd")
+
+	result, err := client.Register(name, passwd)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	// TODO:
+	ctx.JSON(200, gin.H{
+		"message": result,
+	})
 }

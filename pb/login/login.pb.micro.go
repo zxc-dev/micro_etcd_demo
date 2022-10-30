@@ -5,15 +5,14 @@ package login
 
 import (
 	fmt "fmt"
-	proto "google.golang.org/protobuf/proto"
+	proto "github.com/golang/protobuf/proto"
 	math "math"
 )
 
 import (
 	context "context"
-	api "go-micro.dev/v4/api"
-	client "go-micro.dev/v4/client"
-	server "go-micro.dev/v4/server"
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,24 +20,24 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 // Reference imports to suppress errors if they are not otherwise used.
-var _ api.Endpoint
 var _ context.Context
 var _ client.Option
 var _ server.Option
-
-// Api Endpoints for Login service
-
-func NewLoginEndpoints() []*api.Endpoint {
-	return []*api.Endpoint{}
-}
 
 // Client API for Login service
 
 type LoginService interface {
 	// 定義 API Interface，Greet 為此 API 的 Name，
 	// 代表 給 Greet API Request 當參數，並返回 Response
-	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
+	Register(ctx context.Context, in *RegisterReq, opts ...client.CallOption) (*RegisterRsp, error)
+	Login(ctx context.Context, in *LoginReq, opts ...client.CallOption) (*LoginRsp, error)
 }
 
 type loginService struct {
@@ -47,15 +46,31 @@ type loginService struct {
 }
 
 func NewLoginService(name string, c client.Client) LoginService {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(name) == 0 {
+		name = "login"
+	}
 	return &loginService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *loginService) Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error) {
+func (c *loginService) Register(ctx context.Context, in *RegisterReq, opts ...client.CallOption) (*RegisterRsp, error) {
+	req := c.c.NewRequest(c.name, "Login.Register", in)
+	out := new(RegisterRsp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loginService) Login(ctx context.Context, in *LoginReq, opts ...client.CallOption) (*LoginRsp, error) {
 	req := c.c.NewRequest(c.name, "Login.Login", in)
-	out := new(LoginResponse)
+	out := new(LoginRsp)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -68,12 +83,14 @@ func (c *loginService) Login(ctx context.Context, in *LoginRequest, opts ...clie
 type LoginHandler interface {
 	// 定義 API Interface，Greet 為此 API 的 Name，
 	// 代表 給 Greet API Request 當參數，並返回 Response
-	Login(context.Context, *LoginRequest, *LoginResponse) error
+	Register(context.Context, *RegisterReq, *RegisterRsp) error
+	Login(context.Context, *LoginReq, *LoginRsp) error
 }
 
 func RegisterLoginHandler(s server.Server, hdlr LoginHandler, opts ...server.HandlerOption) error {
 	type login interface {
-		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
+		Register(ctx context.Context, in *RegisterReq, out *RegisterRsp) error
+		Login(ctx context.Context, in *LoginReq, out *LoginRsp) error
 	}
 	type Login struct {
 		login
@@ -86,6 +103,10 @@ type loginHandler struct {
 	LoginHandler
 }
 
-func (h *loginHandler) Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error {
+func (h *loginHandler) Register(ctx context.Context, in *RegisterReq, out *RegisterRsp) error {
+	return h.LoginHandler.Register(ctx, in, out)
+}
+
+func (h *loginHandler) Login(ctx context.Context, in *LoginReq, out *LoginRsp) error {
 	return h.LoginHandler.Login(ctx, in, out)
 }
