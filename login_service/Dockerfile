@@ -4,11 +4,11 @@ ENV GO111MODULE=on
 ENV GOPROXY https://goproxy.cn
 COPY . .
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o greeter_service
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o login_service
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
-COPY --from=builder /app/greeter_service .
+COPY --from=builder /app/login_service .
 ENV PARAMS=""
-ENTRYPOINT ./greeter_service $PARAMS
+ENTRYPOINT ./login_service $PARAMS

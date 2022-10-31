@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   login-service:
-    image: greeter_service:latest
+    image: login_service:latest
     ports:
       - 50051:50051 # The opening port
     environment:
@@ -13,7 +13,7 @@ services:
       - etcd # Start after Etcd service start
 
   login-api-service:
-      image: greeter_api:latest
+      image: login_api:latest
       ports:
         - 3000:3000
       environment:
