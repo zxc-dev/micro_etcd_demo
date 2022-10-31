@@ -4,7 +4,7 @@ package client
 
 import (
 	"context"
-	"github.com/micro/go-micro"
+	"go-micro.dev/v4"
 
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
 )

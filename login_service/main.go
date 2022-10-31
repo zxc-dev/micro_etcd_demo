@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/go-micro/plugins/v4/registry/etcd"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/registry/etcd"
 	"github.com/zxc-dev/micro_etcd_demo/login_service/impl"
 	"github.com/zxc-dev/micro_etcd_demo/login_service/model"
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
+	"go-micro.dev/v4"
 	"log"
 )
 

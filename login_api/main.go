@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/registry/etcd"
+	"github.com/go-micro/plugins/v4/registry/etcd"
+	"go-micro.dev/v4"
 	"log"
 
 	"github.com/zxc-dev/micro_etcd_demo/login_api/client"

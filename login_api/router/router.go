@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/micro/go-micro"
 	"github.com/zxc-dev/micro_etcd_demo/login_api/handler"
+	"go-micro.dev/v4"
 )
 
 // NewRouter ...
