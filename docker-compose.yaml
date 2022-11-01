@@ -23,6 +23,7 @@ services:
       # 宿主机：容器
       - 3306:3306
   login-service:
+    restart: always
     image: login_service:latest
     ports:
       - 50051:50051 # The opening port
