@@ -10,6 +10,8 @@ services:
       - /apps/mysql/conf/my.cnf:/etc/my.cnf
       # 数据库还原目录 可将需要还原的sql文件放在这里
       - /apps/mysql/source:/docker-entrypoint-initdb.d
+    security_opt:
+      - seccomp:unconfined
     environment:
       - "MYSQL_ROOT_PASSWORD=micro.demo.password"
       - "MYSQL_DATABASE=micro_demo"
