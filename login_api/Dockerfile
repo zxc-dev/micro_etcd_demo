@@ -7,4 +7,4 @@ ENV PARAMS=""
 
 COPY ./bin/login_api $WORKDIR/login_api
 
-CMD ./login_api $PARAMS
+CMD $WORKDIR/login_api $PARAMS

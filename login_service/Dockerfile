@@ -7,4 +7,4 @@ ENV PARAMS=""
 
 COPY ./bin/login_service $WORKDIR/login_service
 
-CMD ./login_service $PARAMS
+CMD $WORKDIR/login_service $PARAMS
