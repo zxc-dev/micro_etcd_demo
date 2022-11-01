@@ -31,6 +31,7 @@ services:
       - etcdnet
     depends_on:
       - etcd # Start after Etcd service start
+      - mysql
 
   login-api-service:
       image: login_api:latest
@@ -42,6 +43,7 @@ services:
         - etcdnet
       depends_on:
         - etcd
+        - mysql
   etcd:
     hostname: etcd
     image: bitnami/etcd:3
