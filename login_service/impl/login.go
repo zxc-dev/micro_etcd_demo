@@ -35,13 +35,15 @@ func (s *LoginService) Login(ctx context.Context, req *loginpb.LoginReq, rsp *lo
 	} else {
 		rsp.Result = "登录成功"
 	}*/
-	for _, v := range users {
+
+	/*for _, v := range users {
 		if v.Name == req.Name && v.Passwd == req.Passwd {
 			rsp.Result = "登陆成功！"
 			return nil
 		}
 	}
-	rsp.Result = "登录失败，请检查用户名和密码是否正确！"
+	rsp.Result = "登录失败，请检查用户名和密码是否正确！"*/
+	rsp.Result = "用户名:" + req.Name + " 密码:" + req.Passwd
 	return nil
 }
 func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, rsp *loginpb.RegisterRsp) error {
