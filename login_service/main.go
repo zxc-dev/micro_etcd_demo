@@ -4,16 +4,15 @@ import (
 	"github.com/go-micro/plugins/v4/registry/etcd"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/zxc-dev/micro_etcd_demo/login_service/impl"
-	"github.com/zxc-dev/micro_etcd_demo/login_service/model"
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
 	"go-micro.dev/v4"
 	"log"
 )
 
 func main() {
-	model.InitMysql()
+	impl.InitMysql()
 	reg := etcd.NewRegistry()
-	defer model.DB.Close()
+	defer impl.DB.Close()
 
 	service := micro.NewService(
 		micro.Name("micro.service.login"), // The service name to register in the reg

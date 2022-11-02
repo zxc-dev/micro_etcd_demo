@@ -2,17 +2,35 @@ package impl
 
 import (
 	"context"
-	"github.com/zxc-dev/micro_etcd_demo/login_service/model"
+	"github.com/jinzhu/gorm"
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
+	"log"
 )
 
 type LoginService struct{}
 
-var Db = model.DB
+type User struct {
+	ID     int64  `gorm:"AUTO_INCREMENT"`
+	Name   string `gorm:"type:varchar(50);unique_index"`
+	Passwd string `gorm:"type:varchar(50)"`
+}
+
+var DB *gorm.DB
+
+func InitMysql() {
+	var err error
+	DB, err = gorm.Open("mysql", "root:micro.demo.password@(mysql:3306)/micro_demo?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	DB.AutoMigrate(&User{})
+	DB.Model(&User{}).AddUniqueIndex("name")
+}
 
 func (s *LoginService) Login(ctx context.Context, req *loginpb.LoginReq, rsp *loginpb.LoginRsp) error {
-	var user model.User
-	if Db.Where("name = ? and passwd = ?", req.Name, req.Passwd).First(&user).RecordNotFound() {
+	var user User
+	if DB.Where("name = ? and passwd = ?", req.Name, req.Passwd).First(&user).RecordNotFound() {
 		rsp.Result = "用户名或密码错误，登录失败"
 	} else {
 		rsp.Result = "登录成功"
@@ -33,11 +51,11 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 		return nil
 	}
 
-	var user model.User
-	if Db.Where("name = ?", req.Name).First(&user).RecordNotFound() {
+	var user User
+	if DB.Where("name = ?", req.Name).First(&user).RecordNotFound() {
 		user.Name = req.Name
 		user.Passwd = req.Passwd
-		Db.Create(&user)
+		DB.Create(&user)
 		rsp.Result = "注册成功！"
 	} else {
 		rsp.Result = "注册失败，用户名已存在"
