@@ -79,5 +79,6 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 	}
 	user.ID = int64(len(users))
 	users = append(users, user)
+	rsp.Result = "注册成功！"
 	return nil
 }
