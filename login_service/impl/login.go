@@ -52,7 +52,7 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 		return nil
 	}
 	if len(req.Passwd) > 45 {
-		rsp.Result = "密码过长，注册失败"
+		rsp.Result = "密码过长，注册失败" + req.Passwd
 		return nil
 	}
 	if len(req.Name) <= 2 || len(req.Passwd) <= 5 {
