@@ -2,7 +2,9 @@ package impl
 
 import (
 	"context"
+	"github.com/jinzhu/gorm"
 	loginpb "github.com/zxc-dev/micro_etcd_demo/pb/login"
+	"log"
 )
 
 type LoginService struct{}
@@ -15,7 +17,7 @@ type User struct {
 
 var users []User
 
-/*var DB *gorm.DB
+var DB *gorm.DB
 
 func InitMysql() {
 	var err error
@@ -27,14 +29,14 @@ func InitMysql() {
 	DB.AutoMigrate(&User{})
 	DB.Model(&User{}).AddUniqueIndex("name")
 }
-*/
+
 func (s *LoginService) Login(ctx context.Context, req *loginpb.LoginReq, rsp *loginpb.LoginRsp) error {
-	/*var user User
+	var user User
 	if DB.Where("name = ? and passwd = ?", req.Name, req.Passwd).First(&user).RecordNotFound() {
 		rsp.Result = "用户名或密码错误，登录失败"
 	} else {
 		rsp.Result = "登录成功"
-	}*/
+	}
 
 	/*for _, v := range users {
 		if v.Name == req.Name && v.Passwd == req.Passwd {
@@ -43,7 +45,7 @@ func (s *LoginService) Login(ctx context.Context, req *loginpb.LoginReq, rsp *lo
 		}
 	}
 	rsp.Result = "登录失败，请检查用户名和密码是否正确！"*/
-	rsp.Result = "用户名:" + req.Name + " 密码:" + req.Passwd
+	//rsp.Result = "用户名:" + req.Name + " 密码:" + req.Passwd
 	return nil
 }
 func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, rsp *loginpb.RegisterRsp) error {
@@ -60,7 +62,7 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 		return nil
 	}
 
-	/*var user User
+	var user User
 	if DB.Where("name = ?", req.Name).First(&user).RecordNotFound() {
 		user.Name = req.Name
 		user.Passwd = req.Passwd
@@ -68,8 +70,8 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 		rsp.Result = "注册成功！"
 	} else {
 		rsp.Result = "注册失败，用户名已存在"
-	}*/
-	user := User{
+	}
+	/*user := User{
 		Name:   req.Name,
 		Passwd: req.Passwd,
 	}
@@ -81,6 +83,6 @@ func (s *LoginService) Register(ctx context.Context, req *loginpb.RegisterReq, r
 	}
 	user.ID = int64(len(users))
 	users = append(users, user)
-	rsp.Result = "注册成功！"
+	rsp.Result = "注册成功！"*/
 	return nil
 }
