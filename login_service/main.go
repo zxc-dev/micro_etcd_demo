@@ -10,9 +10,9 @@ import (
 )
 
 func main() {
-	impl.InitMysql()
+	//impl.InitMysql()
 	reg := etcd.NewRegistry()
-	defer impl.DB.Close()
+	//defer impl.DB.Close()
 
 	service := micro.NewService(
 		micro.Name("micro.service.login"), // The service name to register in the reg
