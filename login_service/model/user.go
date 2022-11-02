@@ -22,5 +22,5 @@ func InitMysql() {
 	}
 
 	DB.AutoMigrate(&User{})
-	DB.Model(&User{}).AddUniqueIndex("uid", "name")
+	DB.Model(&User{}).AddUniqueIndex("name")
 }
